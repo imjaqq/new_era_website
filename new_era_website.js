@@ -76,7 +76,7 @@ var newEraWeb = function() {
 			this.voiceRecognition = true;
 			var recognition = new webkitSpeechRecognition();
 			
-			function startVoiceRecognition() {
+			this.startVoiceRecognition = function() {
 				recognition.continuous = true;
 				recognition.interimResults = true;
 				switch(languageSetting) {
@@ -116,4 +116,5 @@ var newEraWeb = function() {
 var newEraWeb = new newEraWeb();
 //newEraWeb.setLanguage("zh_tw");
 newEraWeb.loadModel('voiceRecognition');
+newEraWeb.model.voiceRecognition.startVoiceRecognition();
 
