@@ -86,6 +86,8 @@ var newEraWeb = function() {
 			};
 
 			recognition.onresult=function(event){
+				var i = event.resultIndex;
+				var j = event.results[i].length-1;
 				console.log(event.results[i][j].transcript);
 			};
 
