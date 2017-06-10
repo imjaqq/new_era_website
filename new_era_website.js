@@ -2,17 +2,18 @@
 var newEraWeb = function() {
 	
 	var languageResource = getLanguageResource();	
+	var languageSetting = "en_us";
+	var sRes = languageResource.en_us;
+	var browser = getBrowser();	
 	
 	this.model = {};
-	this.browser = getBrowser();
-	this.languageSetting = "en-us";	
-	this.sRes = languageResource.en_us;
+	
 	
 	this.loadModel = function(modelName) {
 		switch(modelName) {			
 			case "voiceRecognition": {
-				if(this.browser.name != "Chrome") {
-					console.log(this.sRes.notSupport);
+				if(browser.name != "Chrome") {
+					console.log(sRes.notSupport);
 				}
 				
 				this.model.voiceRecognition = initNewEraWebVoiceRecognition();							
@@ -31,7 +32,8 @@ var newEraWeb = function() {
 	
 	this.setLanguage = function(language) {
 		if(language in languageResource) {
-			this.sRes = languageResource[language];
+			sRes = languageResource[language];
+			languageSetting = language;
 			return true;
 		} 
 		return false;
@@ -73,31 +75,45 @@ var newEraWeb = function() {
 			this.voiceRecognition = true;
 			this.voiceRecognition = true;
 			var recognition = new webkitSpeechRecognition();
+			
+			function startVoiceRecognition() {
+				recognition.continuous = true;
+				recognition.interimResults = true;
+				switch(languageSetting) {
+					case 'zh_tw': {
+						recognition.lang="cmn-Hant-TW";
+						break;
+					}
+					case 'en_us': {
+						recognition.lang="en-US";
+						break;
+					}
+				}
+				
 
-			recognition.continuous=true;
-			recognition.interimResults=true;
-			recognition.lang="cmn-Hant-TW";
+				recognition.onstart=function(){
+				console.log('開始辨識');
+				};
+				recognition.onend=function(){
+				console.log('停止辨識');
+				};
 
-			recognition.onstart=function(){
-			console.log('開始辨識');
-			};
-			recognition.onend=function(){
-			console.log('停止辨識');
-			};
+				recognition.onresult=function(event){
+					var i = event.resultIndex;
+					var j = event.results[i].length-1;
+					console.log(event.results[i][j].transcript);
+				};
 
-			recognition.onresult=function(event){
-				var i = event.resultIndex;
-				var j = event.results[i].length-1;
-				console.log(event.results[i][j].transcript);
-			};
-
-			recognition.start();
-		}
+				recognition.start();
+			}
+			
+		}				
+		
 		return new NewEraWebVoiceRecognition;
 	}
 }
 
 var newEraWeb = new newEraWeb();
-newEraWeb.setLanguage("zh_tw");
+//newEraWeb.setLanguage("zh_tw");
 newEraWeb.loadModel('voiceRecognition');
 
