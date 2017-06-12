@@ -76,6 +76,7 @@ var newEraWeb = function() {
 		var recognition = new webkitSpeechRecognition();
 		
 		this.addVoiceRecognitionListener = function(targetWord, callback) {			
+			console.log(callback);
 			if(targetWord == null) {
 				console.log('targetWord is null!');
 			}
@@ -110,10 +111,12 @@ var newEraWeb = function() {
 			recognition.onresult=function(event){
 				var i = event.resultIndex;
 				var j = event.results[i].length-1;
-				console.log(event.results[i][j].transcript);
-				for(var voiceRecognitionTargetObject in voiceRecognitionTargetList) {
-					voiceRecognitionTargetObject.targetFunction();
-				}
+				console.log(event.results[i][j].transcript);				
+				if(event.results[i][j].transcript in voiceRecognitionTargetList) {
+					for(var voiceRecognitionTargetObject in voiceRecognitionTargetList[event.results[i][j].transcript]) {					
+						voiceRecognitionTargetObject.targetFunction();
+					}
+				}				
 			};
 
 			recognition.start();
