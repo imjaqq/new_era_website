@@ -106,15 +106,16 @@ var newEraWeb = function() {
 			};
 			recognition.onend=function(){
 				console.log('停止辨識');
+				this.startVoiceRecognition();
 			};
 
 			recognition.onresult=function(event){
 				var i = event.resultIndex;
 				var j = event.results[i].length-1;
-				console.log(event.results[i][j].transcript);				
+				//console.log(event.results[i][j].transcript);				
 				if(event.results[i][j].transcript in voiceRecognitionTargetList) {
-					for(var voiceRecognitionTargetObject in voiceRecognitionTargetList[event.results[i][j].transcript]) {					
-						voiceRecognitionTargetObject.targetFunction();
+					for(var voiceRecognitionTargetIndex in voiceRecognitionTargetList[event.results[i][j].transcript]) {					
+						voiceRecognitionTargetList[event.results[i][j].transcript][voiceRecognitionTargetIndex].targetFunction();
 					}
 				}				
 			};
@@ -134,9 +135,10 @@ var voiceRecognitionTarget = function(targetName, targetFunction) {
 }
 
 var newEraWeb = new newEraWeb();
-//newEraWeb.setLanguage("zh_tw");
+newEraWeb.setLanguage("zh_tw");
 newEraWeb.loadModel('voiceRecognition');
-newEraWeb.module.voiceRecognition.addVoiceRecognitionListener('test', function() {alert('123');});
+newEraWeb.module.voiceRecognition.addVoiceRecognitionListener('警告', function() {alert('123');});
+newEraWeb.module.voiceRecognition.addVoiceRecognitionListener('變換背景', function() {alert('123');});
 newEraWeb.module.voiceRecognition.startVoiceRecognition();
 
 
