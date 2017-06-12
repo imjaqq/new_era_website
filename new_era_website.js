@@ -90,7 +90,7 @@ var newEraWeb = function() {
 		
 		this.startVoiceRecognition = function() {
 			recognition.continuous = true;
-			recognition.interimResults = true;
+			recognition.interimResults = false;
 			switch(languageSetting) {
 				case 'zh_tw': {
 					recognition.lang="cmn-Hant-TW";
@@ -113,7 +113,7 @@ var newEraWeb = function() {
 			recognition.onresult=function(event){
 				var i = event.resultIndex;
 				var j = event.results[i].length-1;
-				//console.log(event.results[i][j].transcript);				
+				console.log(event.results[i][j].transcript);				
 				if(event.results[i][j].transcript in voiceRecognitionTargetList) {
 					for(var voiceRecognitionTargetIndex in voiceRecognitionTargetList[event.results[i][j].transcript]) {					
 						voiceRecognitionTargetList[event.results[i][j].transcript][voiceRecognitionTargetIndex].targetFunction();
@@ -139,7 +139,7 @@ var newEraWeb = new newEraWeb();
 newEraWeb.setLanguage("zh_tw");
 newEraWeb.loadModel('voiceRecognition');
 newEraWeb.module.voiceRecognition.addVoiceRecognitionListener('警告', function() {alert('123');});
-newEraWeb.module.voiceRecognition.addVoiceRecognitionListener('變換背景', function() {alert('123');});
+newEraWeb.module.voiceRecognition.addVoiceRecognitionListener('變換背景', function() {document.body.style.backgroundColor = "red";});
 newEraWeb.module.voiceRecognition.startVoiceRecognition();
 
 
