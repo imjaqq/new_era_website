@@ -69,6 +69,56 @@ var newEraWeb = function() {
 		};
 	}
 	
+	var NewEraWebVoiceRecognition = function () {
+		this.voiceRecognition = true;
+		var voiceRecognitionTargetList = [];
+		
+		var recognition = new webkitSpeechRecognition();
+		
+		this.addVoiceRecognitionListenerById = function(targetWord, voiceRecognitionResult, callback) {			
+			if(targetWord == null) {
+				console.log('targetWord is null!');
+			}
+			if(targetWord in voiceRecognitionTargetList) {
+				voiceRecognitionTargetList[targetWord].push(new voiceRecognitionTarget(targetWord, callback));
+			} else {
+				voiceRecognitionTargetList[targetWord] = [new voiceRecognitionTarget(targetWord, callback)];
+			}
+		}	
+		
+		this.startVoiceRecognition = function() {
+			recognition.continuous = true;
+			recognition.interimResults = true;
+			switch(languageSetting) {
+				case 'zh_tw': {
+					recognition.lang="cmn-Hant-TW";
+					break;
+				}
+				case 'en_us': {
+					recognition.lang="en-US";
+					break;
+				}
+			}
+
+			recognition.onstart=function(){
+				console.log('開始辨識');
+			};
+			recognition.onend=function(){
+				console.log('停止辨識');
+			};
+
+			recognition.onresult=function(event){
+				var i = event.resultIndex;
+				var j = event.results[i].length-1;
+				console.log(event.results[i][j].transcript);
+				for(var voiceRecognitionTargetObject in voiceRecognitionTargetListById) {
+					voiceRecognitionTargetObject.targetFunction();
+				}
+			};
+
+			recognition.start();
+		}		
+	}		
 	
 	function initNewEraWebVoiceRecognition() {				
 		return new NewEraWebVoiceRecognition;
@@ -80,60 +130,10 @@ var voiceRecognitionTarget = function(targetName, targetFunction) {
 	this.targetFunction = targetFunction;
 }
 
-var NewEraWebVoiceRecognition = function () {
-	this.voiceRecognition = true;
-	var voiceRecognitionTargetListById = [];
-	var voiceRecognitionTargetListByClass = [];
-	
-	var recognition = new webkitSpeechRecognition();
-	
-	this.addVoiceRecognitionListenerById = function(domId, voiceRecognitionResult, callback) {
-		var targetDom = document.getElementById(domId);
-		if(targetDom == null) {
-			console.log('domId was not found!');
-		}
-		voiceRecognitionTargetListById[domId] = new voiceRecognitionTarget(domId, callback);
-	}	
-	
-	this.startVoiceRecognition = function() {
-		recognition.continuous = true;
-		recognition.interimResults = true;
-		switch(languageSetting) {
-			case 'zh_tw': {
-				recognition.lang="cmn-Hant-TW";
-				break;
-			}
-			case 'en_us': {
-				recognition.lang="en-US";
-				break;
-			}
-		}
-
-		recognition.onstart=function(){
-		console.log('開始辨識');
-		};
-		recognition.onend=function(){
-		console.log('停止辨識');
-		};
-
-		recognition.onresult=function(event){
-			var i = event.resultIndex;
-			var j = event.results[i].length-1;
-			console.log(event.results[i][j].transcript);
-			for(var voiceRecognitionTargetObject in voiceRecognitionTargetListById) {
-				voiceRecognitionTargetObject.targetFunction();
-			}
-		};
-
-		recognition.start();
-	}
-	
-}		
-
 var newEraWeb = new newEraWeb();
 newEraWeb.setLanguage("zh_tw");
 newEraWeb.loadModel('voiceRecognition');
-//newEraWeb.module.voiceRecognition.addVoiceRecognitionListenerById('test', function() {alert('123');});
-//newEraWeb.module.voiceRecognition.startVoiceRecognition();
+newEraWeb.module.voiceRecognition.addVoiceRecognitionListenerById('test', function() {alert('123');});
+newEraWeb.module.voiceRecognition.startVoiceRecognition();
 
 
