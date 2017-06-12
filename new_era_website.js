@@ -70,6 +70,7 @@ var newEraWeb = function() {
 	}
 	
 	var NewEraWebVoiceRecognition = function () {
+		var self = this;
 		this.voiceRecognition = true;
 		var voiceRecognitionTargetList = [];
 		
@@ -85,7 +86,7 @@ var newEraWeb = function() {
 			} else {
 				voiceRecognitionTargetList[targetWord] = [new voiceRecognitionTarget(targetWord, callback)];
 			}
-		}	
+		}							
 		
 		this.startVoiceRecognition = function() {
 			recognition.continuous = true;
@@ -106,7 +107,7 @@ var newEraWeb = function() {
 			};
 			recognition.onend=function(){
 				console.log('停止辨識');
-				this.startVoiceRecognition();
+				self.startVoiceRecognition();
 			};
 
 			recognition.onresult=function(event){
