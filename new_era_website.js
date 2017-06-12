@@ -75,7 +75,7 @@ var newEraWeb = function() {
 		
 		var recognition = new webkitSpeechRecognition();
 		
-		this.addVoiceRecognitionListenerById = function(targetWord, voiceRecognitionResult, callback) {			
+		this.addVoiceRecognitionListener = function(targetWord, callback) {			
 			if(targetWord == null) {
 				console.log('targetWord is null!');
 			}
@@ -133,7 +133,7 @@ var voiceRecognitionTarget = function(targetName, targetFunction) {
 var newEraWeb = new newEraWeb();
 //newEraWeb.setLanguage("zh_tw");
 newEraWeb.loadModel('voiceRecognition');
-newEraWeb.module.voiceRecognition.addVoiceRecognitionListenerById('test', function() {alert('123');});
+newEraWeb.module.voiceRecognition.addVoiceRecognitionListener('test', function() {alert('123');});
 newEraWeb.module.voiceRecognition.startVoiceRecognition();
 
 
