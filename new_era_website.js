@@ -89,7 +89,7 @@ var NewEraWebVoiceRecognition = function () {
 	
 	this.addVoiceRecognitionListenerById = function(domId, voiceRecognitionResult, callback) {
 		var targetDom = document.getElementById(domId);
-		if(targetDom == NULL) {
+		if(targetDom == null) {
 			console.log('domId was not found!');
 		}
 		voiceRecognitionTargetListById[domId] = new voiceRecognitionTarget(domId, callback);
