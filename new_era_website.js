@@ -111,7 +111,7 @@ var newEraWeb = function() {
 				var i = event.resultIndex;
 				var j = event.results[i].length-1;
 				console.log(event.results[i][j].transcript);
-				for(var voiceRecognitionTargetObject in voiceRecognitionTargetListById) {
+				for(var voiceRecognitionTargetObject in voiceRecognitionTargetList) {
 					voiceRecognitionTargetObject.targetFunction();
 				}
 			};
@@ -131,7 +131,7 @@ var voiceRecognitionTarget = function(targetName, targetFunction) {
 }
 
 var newEraWeb = new newEraWeb();
-newEraWeb.setLanguage("zh_tw");
+//newEraWeb.setLanguage("zh_tw");
 newEraWeb.loadModel('voiceRecognition');
 newEraWeb.module.voiceRecognition.addVoiceRecognitionListenerById('test', function() {alert('123');});
 newEraWeb.module.voiceRecognition.startVoiceRecognition();
