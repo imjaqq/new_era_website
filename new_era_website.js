@@ -125,6 +125,8 @@ var newEraWeb = function() {
 		}		
 	}		
 	
+	
+	
 	function initNewEraWebVoiceRecognition() {				
 		return new NewEraWebVoiceRecognition;
 	}
@@ -135,11 +137,6 @@ var voiceRecognitionTarget = function(targetName, targetFunction) {
 	this.targetFunction = targetFunction;
 }
 
-var newEraWeb = new newEraWeb();
-newEraWeb.setLanguage("zh_tw");
-newEraWeb.loadModel('voiceRecognition');
-newEraWeb.module.voiceRecognition.addVoiceRecognitionListener('警告', function() {alert('123');});
-newEraWeb.module.voiceRecognition.addVoiceRecognitionListener('變換背景', function() {document.body.style.backgroundColor = "red";});
-newEraWeb.module.voiceRecognition.startVoiceRecognition();
+
 
 

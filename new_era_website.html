@@ -3,12 +3,46 @@
 <html><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title></title>
+<style>
+#videoElement {
+	width: 300px;
+	height: 300px;
+}
+</style>
 </head>
 
 <body>
 <h4></h4><h4>
 </h4><h1 id="show"></h1>
 <div id="test"></div>
+<video id="videoElement"></video>
 <script src="new_era_website.js">
 
+
+
+</script>
+<script>
+var video = document.querySelector("#videoElement");
+ 
+navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
+ 
+if (navigator.getUserMedia) {       
+    navigator.getUserMedia({video: true}, handleVideo, videoError);
+}
+ 
+function handleVideo(stream) {
+    video.src = window.URL.createObjectURL(stream);
+}
+ 
+function videoError(e) {
+    // do something
+}
+</script>
+<script>
+var newEraWeb = new newEraWeb();
+newEraWeb.setLanguage("zh_tw");
+newEraWeb.loadModel('voiceRecognition');
+newEraWeb.module.voiceRecognition.addVoiceRecognitionListener('警告', function() {alert('123');});
+newEraWeb.module.voiceRecognition.addVoiceRecognitionListener('變換背景', function() {document.body.style.backgroundColor = "red";});
+//newEraWeb.module.voiceRecognition.startVoiceRecognition();
 </script>
